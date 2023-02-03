@@ -72,7 +72,7 @@ import Cart from '../Modal/Cart.vue'
                         d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
                 </svg>
               </RouterLink>
-              <div class="hidden peer-hover:block hover:block fixed py-5">
+              <div class="hidden peer-hover:block z-[1030] hover:block fixed py-5">
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 bg-white">
                   <div class="bg-white text-gray-600">
                     <a href="#!" aria-current="true"
