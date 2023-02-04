@@ -14,11 +14,11 @@
           and our heirs forever that the English Church shall be free, and shall have her rights entire,</p>
       </div>
       <div class="w-full lg:w-6/12">
-        <img class="lg:block hidden w-full" src="src/assets/about.png"
+        <img class="lg:block hidden w-full" src="../assets/img/about.png"
              alt="people discussing on board"/>
-        <img class="lg:hidden sm:block hidden w-full" src="src/assets/about.png"
+        <img class="lg:hidden sm:block hidden w-full" src="../assets/img/about.png"
              alt="people discussing on board"/>
-        <img class="sm:hidden block w-full" src="src/assets/about.png"
+        <img class="sm:hidden block w-full" src="../assets/img/about.png"
              alt="people discussing on board"/>
       </div>
     </div>

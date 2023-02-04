@@ -14,7 +14,7 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 import {XMarkIcon} from '@heroicons/vue/24/outline'
-import {ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon} from '@heroicons/vue/20/solid'
+import {ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/20/solid'
 
 const sortOptions = [
   {name: 'Most Popular', href: '#', current: true},
@@ -49,7 +49,7 @@ const filters = [
     options: [
       {value: 'new-arrivals', label: 'New Arrivals', checked: false},
       {value: 'sale', label: 'Sale', checked: false},
-      {value: 'travel', label: 'Travel', checked: true},
+      {value: 'travel', label: 'Travel', checked: false},
       {value: 'organization', label: 'Organization', checked: false},
       {value: 'accessories', label: 'Accessories', checked: false},
     ],
@@ -63,7 +63,7 @@ const filters = [
       {value: '12l', label: '12L', checked: false},
       {value: '18l', label: '18L', checked: false},
       {value: '20l', label: '20L', checked: false},
-      {value: '40l', label: '40L', checked: true},
+      {value: '40l', label: '40L', checked: false},
     ],
   },
 ]
@@ -142,7 +142,7 @@ const mobileFiltersOpen = ref(false)
       </Dialog>
     </TransitionRoot>
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
+      <div class="flex items-baseline justify-between border-b border-gray-200 py-16 pb-6">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900">Каталог товаров</h1>
         <div class="flex items-center">
           <Menu as="div" class="relative inline-block text-left">
@@ -184,7 +184,6 @@ const mobileFiltersOpen = ref(false)
         </div>
       </div>
       <section aria-labelledby="products-heading" class="pt-6 pb-24">
-        <h2 id="products-heading" class="sr-only">Products</h2>
         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
           <form class="hidden lg:block">
             <h3 class="sr-only">Categories</h3>
@@ -221,7 +220,7 @@ const mobileFiltersOpen = ref(false)
           </form>
           <div class="lg:col-span-3">
             <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2">
-              <div v-for="index in 17" :key="index" class="w-72 bg-gray-50">
+              <div v-for="index in 15" :key="index" class="w-72 bg-gray-50">
                 <RouterLink to="/product">
                   <img :src="product.cardImage" alt="product" class="w-full h-44"/>
                 </RouterLink>
@@ -258,10 +257,54 @@ const mobileFiltersOpen = ref(false)
                       </div>
                     </div>
                     <div class="flex items-center justify-between py-4">
-                      <h2 class="text-indigo-700 text-xs font-semibold">Bay Area, San Francisco</h2>
-                      <RouterLink class="text-indigo-700 text-xl font-semibold" to="/product">$350</RouterLink>
+                      <h2 class="text-yellow-500 text-xs font-semibold">Bay Area, San Francisco</h2>
+                      <RouterLink class="text-yellow-500 text-xl font-semibold" to="/product">$350</RouterLink>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+              <div class="flex flex-1 justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+                <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+              </div>
+              <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                <div>
+                  <p class="text-sm text-gray-700">
+                    Showing
+                    {{ ' ' }}
+                    <span class="font-medium">1</span>
+                    {{ ' ' }}
+                    to
+                    {{ ' ' }}
+                    <span class="font-medium">10</span>
+                    {{ ' ' }}
+                    of
+                    {{ ' ' }}
+                    <span class="font-medium">97</span>
+                    {{ ' ' }}
+                    results
+                  </p>
+                </div>
+                <div>
+                  <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                    <RouterLink to="#" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                      <span class="sr-only">Previous</span>
+                      <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
+                    </RouterLink>
+                    <RouterLink to="#" aria-current="page" class="relative z-10 inline-flex items-center border border-yellow-500 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-600 focus:z-20">1</RouterLink>
+                    <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">2</RouterLink>
+                    <RouterLink to="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">3</RouterLink>
+                    <span class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">...</span>
+                    <RouterLink to="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">8</RouterLink>
+                    <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">9</RouterLink>
+                    <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">10</RouterLink>
+                    <RouterLink to="#" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                      <span class="sr-only">Next</span>
+                      <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
+                    </RouterLink>
+                  </nav>
                 </div>
               </div>
             </div>

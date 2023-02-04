@@ -169,7 +169,7 @@
     </div>
     <div class="text-center p-6 bg-gray-200">
       <span>© 2023 Copyright: </span>
-      <RouterLink class="text-yellow-600 font-semibold" to="/">Строительный папа</RouterLink>
+      <RouterLink class="text-gray-600 font-semibold" to="/">Строительный папа</RouterLink>
     </div>
   </footer>
 </template>
