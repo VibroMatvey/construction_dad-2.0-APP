@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Image from '../components/Modal/Image.vue'
+import ViewImages from '../components/Product/ViewImages.vue'
 </script>
 
 <template>
-  <Image />
+  <ViewImages />
   <div class="flex justify-center items-center">
     <div class="md:px-6 px-4 py-12 w-full h-full flex justify-center">
       <div class="2xl:container 2xl:mx-auto relative flex justify-start w-96 md:w-10/12 xl:w-11/12 item-start flex-col lg:flex-row lg:space-x-8 py-12 md:py-16 lg:py-12 px-4 md:px-8 lg:px-16 bg-white">
@@ -70,9 +70,9 @@ import Image from '../components/Modal/Image.vue'
           <div class="mt-10">
             <p id="text" class="font-semibold text-base leading-4 text-gray-800">White</p>
             <div class="flex space-x-2 mt-4">
-              <div tabindex="0" onclick="selected('White')" class="focus:outline-none ring-1 ring-transparent ring-offset-2 focus:ring-gray-800 rounded-full cursor-pointer w-8 h-8 bg-gray-50"></div>
-              <div tabindex="0" onclick="selected('Red')" class="focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-gray-800 rounded-full cursor-pointer w-8 h-8 bg-red-700"></div>
-              <div tabindex="0" onclick="selected('Yellow')" class="focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-gray-800 rounded-full cursor-pointer w-8 h-8 bg-yellow-300"></div>
+              <div tabindex="0" class="focus:outline-none ring-1 ring-transparent ring-offset-2 focus:ring-gray-800 rounded-full cursor-pointer w-8 h-8 bg-gray-50"></div>
+              <div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-gray-800 rounded-full cursor-pointer w-8 h-8 bg-red-700"></div>
+              <div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-gray-800 rounded-full cursor-pointer w-8 h-8 bg-yellow-300"></div>
             </div>
           </div>
           <div class="mt-10 w-full">
@@ -81,12 +81,12 @@ import Image from '../components/Modal/Image.vue'
               <p class="cursor-pointer hover:text-gray-800 font-medium text-base leading-4 text-gray-500 underline">Size guide</p>
             </div>
             <div class="grid grid-cols-3 gap-10 sm:flex sm:flex-wrap md:gap-4 sm:justify-between lg:justify-start mt-4">
-              <div onclick="selectedSize('XSS')" id="XSS" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">XXS</div>
-              <div onclick="selectedSize('XS')" id="XS" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">XS</div>
-              <div onclick="selectedSize('S')" id="S" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">S</div>
-              <div onclick="selectedSize('M')" id="M" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">M</div>
-              <div onclick="selectedSize('L')" id="L" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">L</div>
-              <div onclick="selectedSize('XL')" id="XL" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">XL</div>
+              <div id="XSS" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">XXS</div>
+              <div id="XS" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">XS</div>
+              <div id="S" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">S</div>
+              <div id="M" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">M</div>
+              <div id="L" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">L</div>
+              <div id="XL" class="font-medium text-base leading-4 text-gray-800 border border-gray-200 py-3 w-20 text-center cursor-pointer hover:border-gray-800 focus:border-gray-800">XL</div>
             </div>
           </div>
           <p class="mt-4 font-normal text-sm leading-3 text-gray-500 hover:text-gray-600 duration-100 underline cursor-pointer">Find the perfect size?</p>

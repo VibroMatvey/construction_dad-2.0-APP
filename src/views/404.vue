@@ -4,7 +4,7 @@
       <div class="flex flex-col items-center py-16">
         <h1 class="text-9xl text-yellow-500">404</h1>
         <h1 class="px-4 pt-8 pb-4 text-center dark:text-white text-5xl font-bold leading-10 text-gray-800">Упс!</h1>
-        <p class="px-4 pb-10 text-base leading-none dark:text-gray-200 text-center text-gray-600">Страница не
+        <p class="px-4 pb-10 text-base leading-none dark:text-gray-200 text-center text-gray-600">Запрашиваемая страница не
           найдена!</p>
         <RouterLink to="/">
           <button type="button"

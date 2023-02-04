@@ -1,314 +1,39 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-import {
-  Dialog,
-  DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import {XMarkIcon} from '@heroicons/vue/24/outline'
-import {ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/20/solid'
+import Filter from '../components/Catalog/Filter.vue';
+import Sort from '../components/Catalog/Sort.vue';
+import Products from '../components/Catalog/Products.vue';
+import {ref} from "vue";
 
-const sortOptions = [
-  {name: 'Most Popular', href: '#', current: true},
-  {name: 'Best Rating', href: '#', current: false},
-  {name: 'Newest', href: '#', current: false},
-  {name: 'Price: Low to High', href: '#', current: false},
-  {name: 'Price: High to Low', href: '#', current: false},
-]
-const subCategories = [
-  {name: 'Totes', href: '#'},
-  {name: 'Backpacks', href: '#'},
-  {name: 'Travel Bags', href: '#'},
-  {name: 'Hip Bags', href: '#'},
-  {name: 'Laptop Sleeves', href: '#'},
-]
-const filters = [
-  {
-    id: 'color',
-    name: 'Color',
-    options: [
-      {value: 'white', label: 'White', checked: false},
-      {value: 'beige', label: 'Beige', checked: false},
-      {value: 'blue', label: 'Blue', checked: true},
-      {value: 'brown', label: 'Brown', checked: false},
-      {value: 'green', label: 'Green', checked: false},
-      {value: 'purple', label: 'Purple', checked: false},
-    ],
-  },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      {value: 'new-arrivals', label: 'New Arrivals', checked: false},
-      {value: 'sale', label: 'Sale', checked: false},
-      {value: 'travel', label: 'Travel', checked: false},
-      {value: 'organization', label: 'Organization', checked: false},
-      {value: 'accessories', label: 'Accessories', checked: false},
-    ],
-  },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      {value: '2l', label: '2L', checked: false},
-      {value: '6l', label: '6L', checked: false},
-      {value: '12l', label: '12L', checked: false},
-      {value: '18l', label: '18L', checked: false},
-      {value: '20l', label: '20L', checked: false},
-      {value: '40l', label: '40L', checked: false},
-    ],
-  },
-]
+function mobileFilterAction(state: boolean) {
+  mobileFilter.value = state
+}
 
-const product = ref({
-  cardImage: "https://cdn.tuk.dev/assets/templates/classified/Bitmap (1).png",
-  cardImage2: "https://cdn.tuk.dev/assets/templates/classified/Bitmap.png",
-  item: "iphone XS",
-  description: "The Apple iPhone XS is available in 3 colors with 64GB memory. Shoot amazing videos",
-  isClicked: "none",
-})
-
-const mobileFiltersOpen = ref(false)
+function changeGrid(type: string) {
+  grid.value = type
+}
+const mobileFilter = ref(false)
+const grid = ref('grid')
+const category = ref(null);
 </script>
 
 <template>
   <div class="bg-white">
-    <TransitionRoot as="template" :show="mobileFiltersOpen">
-      <Dialog as="div" class="relative z-40 lg:hidden" @close="mobileFiltersOpen = false">
-        <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
-                         enter-to="opacity-100" leave="transition-opacity ease-linear duration-300"
-                         leave-from="opacity-100" leave-to="opacity-0">
-          <div class="fixed inset-0 bg-black bg-opacity-25"/>
-        </TransitionChild>
-        <div class="fixed inset-0 z-40 flex">
-          <TransitionChild as="template" enter="transition ease-in-out duration-300 transform"
-                           enter-from="translate-x-full" enter-to="translate-x-0"
-                           leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0"
-                           leave-to="translate-x-full">
-            <DialogPanel
-                class="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
-              <div class="flex items-center justify-between px-4">
-                <h2 class="text-lg font-medium text-gray-900">Filters</h2>
-                <button type="button"
-                        class="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                        @click="mobileFiltersOpen = false">
-                  <span class="sr-only">Close menu</span>
-                  <XMarkIcon class="h-6 w-6" aria-hidden="true"/>
-                </button>
-              </div>
-              <form class="mt-4 border-t border-gray-200">
-                <h3 class="sr-only">Categories</h3>
-                <ul role="list" class="px-2 py-3 font-medium text-gray-900">
-                  <li v-for="category in subCategories" :key="category.name">
-                    <a :href="category.href" class="block px-2 py-3">{{ category.name }}</a>
-                  </li>
-                </ul>
-                <Disclosure as="div" v-for="section in filters" :key="section.id"
-                            class="border-t border-gray-200 px-4 py-6" v-slot="{ open }">
-                  <h3 class="-mx-2 -my-3 flow-root">
-                    <DisclosureButton
-                        class="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                      <span class="font-medium text-gray-900">{{ section.name }}</span>
-                      <span class="ml-6 flex items-center">
-                          <PlusIcon v-if="!open" class="h-5 w-5" aria-hidden="true"/>
-                          <MinusIcon v-else class="h-5 w-5" aria-hidden="true"/>
-                        </span>
-                    </DisclosureButton>
-                  </h3>
-                  <DisclosurePanel class="pt-6">
-                    <div class="space-y-6">
-                      <div v-for="(option, optionIdx) in section.options" :key="option.value" class="flex items-center">
-                        <input :id="`filter-mobile-${section.id}-${optionIdx}`" :name="`${section.id}[]`"
-                               :value="option.value" type="checkbox" :checked="option.checked"
-                               class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"/>
-                        <label :for="`filter-mobile-${section.id}-${optionIdx}`"
-                               class="ml-3 min-w-0 flex-1 text-gray-500">{{ option.label }}</label>
-                      </div>
-                    </div>
-                  </DisclosurePanel>
-                </Disclosure>
-              </form>
-            </DialogPanel>
-          </TransitionChild>
-        </div>
-      </Dialog>
-    </TransitionRoot>
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-baseline justify-between border-b border-gray-200 py-16 pb-6">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900">Каталог товаров</h1>
-        <div class="flex items-center">
-          <Menu as="div" class="relative inline-block text-left">
-            <div>
-              <MenuButton
-                  class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                Sort
-                <ChevronDownIcon class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                 aria-hidden="true"/>
-              </MenuButton>
-            </div>
-            <transition enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95">
-              <MenuItems
-                  class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div class="py-1">
-                  <MenuItem v-for="option in sortOptions" :key="option.name" v-slot="{ active }">
-                    <a :href="option.href"
-                       :class="[option.current ? 'font-medium text-gray-900' : 'text-gray-500', active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm']">{{
-                        option.name
-                      }}</a>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
-          <button type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-            <span class="sr-only">View grid</span>
-            <Squares2X2Icon class="h-5 w-5" aria-hidden="true"/>
-          </button>
-          <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                  @click="mobileFiltersOpen = true">
-            <span class="sr-only">Filters</span>
-            <FunnelIcon class="h-5 w-5" aria-hidden="true"/>
-          </button>
-        </div>
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900">Каталог товаров {{ category ? ' - ' + category : '' }}</h1>
+        <Sort @gridType="changeGrid($event)" @showMobileFilter="mobileFilterAction(true)" />
       </div>
       <section aria-labelledby="products-heading" class="pt-6 pb-24">
         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-          <form class="hidden lg:block">
-            <h3 class="sr-only">Categories</h3>
-            <ul role="list" class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-              <li v-for="category in subCategories" :key="category.name">
-                <a :href="category.href">{{ category.name }}</a>
-              </li>
-            </ul>
-            <Disclosure as="div" v-for="section in filters" :key="section.id" class="border-b border-gray-200 py-6"
-                        v-slot="{ open }">
-              <h3 class="-my-3 flow-root">
-                <DisclosureButton
-                    class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                  <span class="font-medium text-gray-900">{{ section.name }}</span>
-                  <span class="ml-6 flex items-center">
-                      <PlusIcon v-if="!open" class="h-5 w-5" aria-hidden="true"/>
-                      <MinusIcon v-else class="h-5 w-5" aria-hidden="true"/>
-                    </span>
-                </DisclosureButton>
-              </h3>
-              <DisclosurePanel class="pt-6">
-                <div class="space-y-4">
-                  <div v-for="(option, optionIdx) in section.options" :key="option.value" class="flex items-center">
-                    <input :id="`filter-${section.id}-${optionIdx}`" :name="`${section.id}[]`" :value="option.value"
-                           type="checkbox" :checked="option.checked"
-                           class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"/>
-                    <label :for="`filter-${section.id}-${optionIdx}`" class="ml-3 text-sm text-gray-600">{{
-                        option.label
-                      }}</label>
-                  </div>
-                </div>
-              </DisclosurePanel>
-            </Disclosure>
-          </form>
-          <div class="lg:col-span-3">
-            <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2">
-              <div v-for="index in 15" :key="index" class="w-72 bg-gray-50">
-                <RouterLink to="/product">
-                  <img :src="product.cardImage" alt="product" class="w-full h-44"/>
-                </RouterLink>
-                <div class="">
-                  <div class="flex items-center justify-between px-4 pt-4">
-                    <div>
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookmark" width="20"
-                           height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke="#2c3e50"
-                           stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3l-5 3v-14a2 2 0 0 1 2 -2"/>
-                      </svg>
-                    </div>
-                    <div class="bg-yellow-200 py-1.5 px-6 rounded-full">
-                      <p class="text-xs text-yellow-500">Featured</p>
-                    </div>
-                  </div>
-                  <div class="p-4">
-                    <div class="flex items-center">
-                      <RouterLink to="/product" class="text-lg font-semibold">
-                        {{ product.item }}
-                      </RouterLink>
-                      <p class="text-xs text-gray-600 pl-5">4 days ago</p>
-                    </div>
-                    <p class="text-xs text-gray-600 mt-2">
-                      {{ product.description }}
-                    </p>
-                    <div class="flex mt-4">
-                      <div>
-                        <p class="text-xs text-gray-600 px-2 bg-gray-200 py-1">12 months warranty</p>
-                      </div>
-                      <div class="pl-2">
-                        <p class="text-xs text-gray-600 px-2 bg-gray-200 py-1">Complete box</p>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between py-4">
-                      <h2 class="text-yellow-500 text-xs font-semibold">Bay Area, San Francisco</h2>
-                      <RouterLink class="text-yellow-500 text-xl font-semibold" to="/product">$350</RouterLink>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-              <div class="flex flex-1 justify-between sm:hidden">
-                <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-                <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
-              </div>
-              <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                <div>
-                  <p class="text-sm text-gray-700">
-                    Showing
-                    {{ ' ' }}
-                    <span class="font-medium">1</span>
-                    {{ ' ' }}
-                    to
-                    {{ ' ' }}
-                    <span class="font-medium">10</span>
-                    {{ ' ' }}
-                    of
-                    {{ ' ' }}
-                    <span class="font-medium">97</span>
-                    {{ ' ' }}
-                    results
-                  </p>
-                </div>
-                <div>
-                  <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                    <RouterLink to="#" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
-                      <span class="sr-only">Previous</span>
-                      <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
-                    </RouterLink>
-                    <RouterLink to="#" aria-current="page" class="relative z-10 inline-flex items-center border border-yellow-500 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-600 focus:z-20">1</RouterLink>
-                    <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">2</RouterLink>
-                    <RouterLink to="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">3</RouterLink>
-                    <span class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">...</span>
-                    <RouterLink to="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">8</RouterLink>
-                    <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">9</RouterLink>
-                    <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">10</RouterLink>
-                    <RouterLink to="#" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
-                      <span class="sr-only">Next</span>
-                      <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
-                    </RouterLink>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Filter @category="category = $event" @hideMobileFilter="mobileFilterAction(false)" v-model:showMobileFilter = mobileFilter />
+          <Suspense>
+            <template #default>
+              <Products v-model:gridType = grid />
+            </template>
+            <template #fallback>
+              loading...
+            </template>
+          </Suspense>
         </div>
       </section>
     </main>

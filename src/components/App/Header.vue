@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Cart from '../Modal/Cart.vue'
+import CartModal from './CartModal.vue'
 
 </script>
 
@@ -257,7 +257,7 @@ import Cart from '../Modal/Cart.vue'
       </div>
     </nav>
   </header>
-  <Cart/>
+  <CartModal/>
 </template>
 
 <style scoped>
