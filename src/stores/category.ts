@@ -6,19 +6,19 @@ import {useRoute} from "vue-router";
 export const useCategoryStore = defineStore('category', () => {
     const categories = ref(null)
     const category = ref(null)
+    const loading = ref(false);
     const route = useRoute();
 
-    function setCategory(value: any) {
-        category.value = value;
-    }
-
     async function getCategories() {
+        loading.value = true
         if (route.name === 'catalogCategory') {
-            await requestCategories()
-            return await requestCategoriesById(route.params.category)
+            await requestCategoriesById(route.params.category)
         }
-        setCategory(null)
-        return await requestCategories()
+        if (route.name === 'catalog') {
+            category.value = null;
+        }
+        await requestCategories();
+        loading.value = false
     }
 
     async function requestCategories() {
@@ -32,11 +32,11 @@ export const useCategoryStore = defineStore('category', () => {
     async function requestCategoriesById(id: any) {
         try {
             const response: any = await ky.get(`http://localhost:8000/api/categories/${id}`).json()
-            setCategory(response.title)
+            category.value = response.title
         } catch (e) {
             console.log(e)
         }
     }
 
-    return {getCategories, categories, category}
+    return {getCategories, categories, category, loading}
 })

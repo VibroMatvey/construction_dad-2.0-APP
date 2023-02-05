@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ProductsSkeleton from './ProductsSkeleton.vue'
 import {ref, defineProps, watch} from "vue";
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/20/solid'
 import {useProductStore} from "@/stores/product";
@@ -20,48 +21,40 @@ watch(route, async (newVal, oldVal) => {
 </script>
 
 <template>
-  <div class="lg:col-span-3">
-    <div :class=" grid === 'grid' ? 'grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2' : 'grid grid-cols-1 gap-5'">
+  <div v-if="!productsStore.loading" class="lg:col-span-3">
+    <div :class=" grid === 'grid' ? 'grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-5 rounded' : 'grid grid-cols-1 gap-5 rounded'">
       <div v-for="product in productsStore.products" :key="product.id"
            :class=" grid === 'grid' ? 'w-72 bg-gray-50' : 'flex justify-between w-full bg-gray-50'">
-        <RouterLink to="/product">
-          <img :src="product.preview_img" alt="product" class="w-full h-44"/>
+        <RouterLink :to="`/product/${product.id}`">
+          <img :src="product.preview_img" alt="product" class="w-full h-44 hover:opacity-80 transition-opacity"/>
         </RouterLink>
         <div class="">
           <div class="flex items-center justify-between px-4 pt-4">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookmark" width="20"
-                   height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke="#2c3e50"
-                   stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3l-5 3v-14a2 2 0 0 1 2 -2"/>
+            <div class="cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="orange" stroke-width="2px" class="w-6 h-6">
+                <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
               </svg>
             </div>
-            <div class="bg-yellow-200 py-1.5 px-6 rounded-full">
-              <p class="text-xs text-yellow-500">Featured</p>
+            <div class="bg-yellow-400 py-1.5 px-6 rounded-full">
+              <p class="text-xs text-gray-800">Featured</p>
             </div>
           </div>
           <div class="p-4">
             <div class="flex items-center">
-              <RouterLink to="/product" class="text-lg font-semibold">
+              <RouterLink :to="`/product/${product.id}`" class="text-lg font-semibold">
                 {{ product.title }}
               </RouterLink>
-              <p class="text-xs text-gray-600 pl-5">4 days ago</p>
             </div>
             <p class="text-xs text-gray-600 mt-2">
               {{ product.description }}
             </p>
-            <div class="flex mt-4">
-              <div>
-                <p class="text-xs text-gray-600 px-2 bg-gray-200 py-1">12 months warranty</p>
-              </div>
-              <div class="pl-2">
-                <p class="text-xs text-gray-600 px-2 bg-gray-200 py-1">Complete box</p>
+            <div class="flex mt-4 gap-4">
+              <div v-for="tag in product.tags">
+                <p class="text-xs text-gray-600 px-2 bg-gray-200 py-1 rounded">{{ tag.title }}</p>
               </div>
             </div>
-            <div class="flex items-center justify-between py-4">
-              <h2 class="text-yellow-500 text-xs font-semibold">Bay Area, San Francisco</h2>
-              <RouterLink class="text-yellow-500 text-xl font-semibold" to="/product">{{ product.price }}</RouterLink>
+            <div class="flex items-center justify-end py-4">
+              <RouterLink class="text-gray-800 text-lg font-bold" :to="`/product/${product.id}`">{{ product.price }} руб.</RouterLink>
             </div>
           </div>
         </div>
@@ -135,6 +128,7 @@ watch(route, async (newVal, oldVal) => {
       </div>
     </div> <!-- pagination -->
   </div>
+  <ProductsSkeleton v-if="productsStore.loading" />
 </template>
 
 <style scoped>

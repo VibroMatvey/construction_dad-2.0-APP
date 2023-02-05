@@ -3,10 +3,10 @@
 </script>
 
 <template>
-    <div class="w-full h-full">
-      <div class="flex items-center lg:flex-row flex-col justify-between">
-        <div class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-white dark:bg-gray-800 overflow-y-hidden overflow-x-hidden lg:h-screen h-auto">
-          <p class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 dark:text-white pt-3">Корзина</p>
+    <div class="container mx-auto">
+      <div class="flex my-12 items-start lg:flex-row flex-col justify-between">
+        <div class="overflow-y-hidden overflow-x-hidden bg-gray-50 rounded p-5">
+          <h1 class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 dark:text-white">Корзина</h1>
           <div class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
             <div class="md:w-4/12 2xl:w-1/4 w-full">
               <img src="https://i.ibb.co/SX762kX/Rectangle-36-1.png" alt="Black Leather Bag" class="h-full object-center object-cover md:block hidden" />
@@ -89,10 +89,10 @@
             </div>
           </div>
         </div>
-        <div class="lg:w-96 md:w-8/12 w-full bg-gray-50 dark:bg-gray-900 h-full">
-          <div class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto">
+        <div class="lg:w-96 md:w-8/12 h-full w-full bg-gray-100 dark:bg-gray-900 rounded p-5">
+          <div class="flex flex-col h-full justify-between overflow-y-auto">
             <div>
-              <p class="lg:text-4xl text-3xl font-black leading-9 text-gray-800 dark:text-white">Заказ</p>
+              <p class="lg:text-4xl text-3xl font-black leading-9 text-gray-800 dark:text-white">Оформить заказ</p>
               <div class="flex items-center justify-between pt-16">
                 <p class="text-base leading-none text-gray-800 dark:text-white">Товары</p>
                 <p class="text-base leading-none text-gray-800 dark:text-white">$9,000</p>
@@ -108,7 +108,9 @@
                 <p class="text-2xl font-bold leading-normal text-right text-gray-800 dark:text-white">$10,240</p>
               </div>
               <RouterLink to="/order">
-                <button class="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white dark:hover:bg-gray-700">Перейти к оплате</button>
+                <button type="button" class="w-full inline-block px-6 py-2.5 bg-yellow-400 text-gray-800 text-xs uppercase rounded shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">
+                  Перейти к оплате
+                </button>
               </RouterLink>
             </div>
           </div>

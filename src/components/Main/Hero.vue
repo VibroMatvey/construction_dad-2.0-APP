@@ -27,13 +27,13 @@
         </div>
       </div>
     </div>
-    <div class="z-10 top-1/4 absolute w-full px-10">
+    <div class="z-10 top-1/4 absolute w-full px-16">
       <div class="w-full flex gap-6">
         <h1 class="text-6xl text-gray-200">Строительный папа <p class="text-2xl text-gray-300 mt-2">расширяет грани
           возможного!</p></h1>
       </div>
     </div>
-    <div class="z-10 top-3/4 absolute w-full px-10">
+    <div class="z-10 top-3/4 absolute w-full px-16">
       <div class="flex gap-10 justify-between">
         <div class="">
           <button type="button"

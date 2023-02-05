@@ -11,7 +11,10 @@ const router = createRouter({
     {
       path: '/catalog',
       name: 'catalog',
-      component: () => import('../views/Catalog.vue')
+      component: () => import('../views/Catalog.vue'),
+      meta: {
+        title: 'Строительный папа | Каталог товаров'
+      }
     },
     {
       path: '/catalog/:category',
@@ -39,7 +42,7 @@ const router = createRouter({
       component: () => import('../views/Order.vue')
     },
     {
-      path: '/product',
+      path: '/product/:id',
       name: 'product',
       component: () => import('../views/Product.vue')
     },

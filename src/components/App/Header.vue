@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import CartModal from './CartModal.vue'
+import {useCategoryStore} from "@/stores/category";
 
+const categoryStore = useCategoryStore();
+await categoryStore.getCategories();
 </script>
 
 <template>
@@ -72,74 +75,10 @@ import CartModal from './CartModal.vue'
                         d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
                 </svg>
               </RouterLink>
-              <div class="hidden peer-hover:block z-[1030] hover:block fixed py-5">
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 bg-white">
-                  <div class="bg-white text-gray-600">
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Lorem
-                      ipsum</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Dolor
-                      sit</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Amet
-                      consectetur</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Cras
-                      justo odio</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Adipisicing
-                      elit</a>
-                  </div>
-                  <div class="bg-white text-gray-600">
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Explit
-                      voluptas</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Perspiciatis
-                      quo</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Cras
-                      justo odio</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Laudant
-                      maiores</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Provident
-                      dolor</a>
-                  </div>
-                  <div class="bg-white text-gray-600">
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Iste
-                      quaerato</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Cras
-                      justo odio</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Est
-                      iure</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Praesentium</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Laboriosam</a>
-                  </div>
-                  <div class="bg-white text-gray-600">
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Cras
-                      justo odio</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Saepe</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Vel
-                      alias</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Sunt
-                      doloribus</a>
-                    <a href="#!" aria-current="true"
-                       class="block px-6 py-2 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">Cum
-                      dolores</a>
-                  </div>
-                </div>
+              <div class="hidden peer-hover:block z-[1030] py-2 px-2 hover:block fixed bg-gray-50 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <RouterLink v-for="category in categoryStore.categories" :to="`/catalog/${category.id}`" aria-current="true" class="px-2 py-2 block border-b border-gray-200 w-full hover:bg-gray-50 hover:text-gray-700 transition duration-150 ease-in-out">
+                  {{ category.title }}
+                </RouterLink>
               </div>
             </li>
             <li class="nav-item p-2">
@@ -148,7 +87,6 @@ import CartModal from './CartModal.vue'
             </li>
           </ul>
         </div>
-
         <div class="flex items-center relative">
           <RouterLink class="text-gray-500 hover:text-gray-700 focus:text-gray-700 mr-4" to="#" data-bs-toggle="modal"
                       data-bs-target="#exampleModalScrollable">
@@ -161,7 +99,7 @@ import CartModal from './CartModal.vue'
             </svg>
           </RouterLink>
           <div class="dropdown relative">
-            <a class="
+            <RouterLink class="
           text-gray-500
           hover:text-gray-700
           focus:text-gray-700
@@ -169,7 +107,7 @@ import CartModal from './CartModal.vue'
           dropdown-toggle
           hidden-arrow
           flex items-center
-        " href="#" id="dropdownMenuButton1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        " to="#" id="dropdownMenuButton1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bell"
                    class="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path fill="currentColor"
@@ -177,7 +115,7 @@ import CartModal from './CartModal.vue'
                 </path>
               </svg>
               <span class="text-white bg-red-700 absolute rounded-full text-xs -mt-2.5 ml-2 py-0 px-1.5">1</span>
-            </a>
+            </RouterLink>
             <ul class="
       dropdown-menu
       min-w-max
@@ -201,7 +139,7 @@ import CartModal from './CartModal.vue'
       right-0
     " aria-labelledby="dropdownMenuButton1">
               <li>
-                <a class="
+                <RouterLink class="
           dropdown-item
           text-sm
           py-2
@@ -213,10 +151,10 @@ import CartModal from './CartModal.vue'
           bg-transparent
           text-gray-700
           hover:bg-gray-100
-        " href="#">Action</a>
+        " to="#">Action</RouterLink>
               </li>
               <li>
-                <a class="
+                <RouterLink class="
           dropdown-item
           text-sm
           py-2
@@ -228,10 +166,10 @@ import CartModal from './CartModal.vue'
           bg-transparent
           text-gray-700
           hover:bg-gray-100
-        " href="#">Another action</a>
+        " to="#">Another action</RouterLink>
               </li>
               <li>
-                <a class="
+                <RouterLink class="
           dropdown-item
           text-sm
           py-2
@@ -243,7 +181,7 @@ import CartModal from './CartModal.vue'
           bg-transparent
           text-gray-700
           hover:bg-gray-100
-        " href="#">Something else here</a>
+        " to="#">Something else here</RouterLink>
               </li>
             </ul>
           </div>
