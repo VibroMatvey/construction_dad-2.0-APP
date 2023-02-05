@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import {ref, defineProps, watch} from "vue";
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/20/solid'
+import {useProductStore} from "@/stores/product";
+import {useRoute} from "vue-router";
 
-const product = ref({
-  cardImage: "https://cdn.tuk.dev/assets/templates/classified/Bitmap (1).png",
-  cardImage2: "https://cdn.tuk.dev/assets/templates/classified/Bitmap.png",
-  item: "iphone XS",
-  description: "The Apple iPhone XS is available in 3 colors with 64GB memory. Shoot amazing videos",
-  isClicked: "none",
-})
+const route = useRoute();
+const productsStore = useProductStore();
+const props = defineProps(['gridType']);
+const grid = ref('grid');
 
-const props = defineProps(['gridType'])
-const grid = ref('grid')
+if (route.name === 'catalogCategory') {
+  await productsStore.requestProductsByCategory(route.params.category);
+} else {
+  await productsStore.requestProducts();
+}
 
 watch(props, (newVal, oldVal) => {
   grid.value = props.gridType
@@ -21,9 +23,9 @@ watch(props, (newVal, oldVal) => {
 <template>
   <div class="lg:col-span-3">
     <div :class=" grid === 'grid' ? 'grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2' : 'grid grid-cols-1 gap-5'">
-      <div v-for="index in 15" :key="index" :class=" grid === 'grid' ? 'w-72 bg-gray-50' : 'flex justify-between w-full bg-gray-50'">
+      <div v-for="product in productsStore.products" :key="product.id" :class=" grid === 'grid' ? 'w-72 bg-gray-50' : 'flex justify-between w-full bg-gray-50'">
         <RouterLink to="/product">
-          <img :src="product.cardImage" alt="product" class="w-full h-44"/>
+          <img :src="product.preview_img" alt="product" class="w-full h-44"/>
         </RouterLink>
         <div class="">
           <div class="flex items-center justify-between px-4 pt-4">
@@ -42,7 +44,7 @@ watch(props, (newVal, oldVal) => {
           <div class="p-4">
             <div class="flex items-center">
               <RouterLink to="/product" class="text-lg font-semibold">
-                {{ product.item }}
+                {{ product.title }}
               </RouterLink>
               <p class="text-xs text-gray-600 pl-5">4 days ago</p>
             </div>
@@ -59,12 +61,12 @@ watch(props, (newVal, oldVal) => {
             </div>
             <div class="flex items-center justify-between py-4">
               <h2 class="text-yellow-500 text-xs font-semibold">Bay Area, San Francisco</h2>
-              <RouterLink class="text-yellow-500 text-xl font-semibold" to="/product">$350</RouterLink>
+              <RouterLink class="text-yellow-500 text-xl font-semibold" to="/product">{{ product.price }}</RouterLink>
             </div>
           </div>
         </div>
       </div>
-    </div> <!-- products -->
+    </div>
     <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div class="flex flex-1 justify-between sm:hidden">
         <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>

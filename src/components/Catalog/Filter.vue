@@ -11,59 +11,33 @@ import {
 import {XMarkIcon} from '@heroicons/vue/24/outline'
 import {MinusIcon, PlusIcon} from '@heroicons/vue/20/solid'
 import {ref, defineProps, defineEmits, watch} from "vue";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {useCategoryStore} from "@/stores/category";
+import {useProductStore} from "@/stores/product";
 
 function hideMobileFilter() {
   mobileFiltersOpen.value = false
   emit('hideMobileFilter', false)
 }
 
-function changeCategory(category: any) {
-  router.push({name: 'catalogCategory', params: {category: category.value}})
-  emit('category', category.label)
+async function changeCategory(category: any) {
+  await categoryStore.requestCategoriesById(category.id);
+  await productStore.requestProductsByCategory(category.id)
+  await router.push({name: 'catalogCategory', params: {category: category.id}})
 }
 
+const route = useRoute();
+const categoryStore = useCategoryStore();
+const productStore = useProductStore();
+await categoryStore.requestCategories();
 const router = useRouter();
 const props = defineProps(['showMobileFilter']);
-const emit = defineEmits(['hideMobileFilter', 'category']);
-const subCategories = [
-  {label: 'Садовый инвентарь', value: 'sadovy-inventar'},
-  {label: 'Инструмент', value: 'instrument'},
-]
-const filters = [
-  {
-    id: 'color',
-    name: 'Color',
-    options: [
-      {value: 'white', label: 'White', checked: false},
-      {value: 'beige', label: 'Beige', checked: false},
-      {value: 'blue', label: 'Blue', checked: true},
-      {value: 'brown', label: 'Brown', checked: false},
-      {value: 'green', label: 'Green', checked: false},
-      {value: 'purple', label: 'Purple', checked: false},
-    ],
-  },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      {value: 'instrument', label: 'Инструмент', checked: false},
-    ],
-  },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      {value: '2l', label: '2L', checked: false},
-      {value: '6l', label: '6L', checked: false},
-      {value: '12l', label: '12L', checked: false},
-      {value: '18l', label: '18L', checked: false},
-      {value: '20l', label: '20L', checked: false},
-      {value: '40l', label: '40L', checked: false},
-    ],
-  },
-]
+const emit = defineEmits(['hideMobileFilter']);
 const mobileFiltersOpen = ref(false)
+
+if (route.name === 'catalogCategory') {
+  await categoryStore.requestCategoriesById(route.params.category);
+}
 
 watch(props, (newVal, oldVal) => {
   mobileFiltersOpen.value = props.showMobileFilter
@@ -133,17 +107,12 @@ watch(props, (newVal, oldVal) => {
   </TransitionRoot> <!-- mobile -->
   <form class="hidden lg:block">
     <h3 class="sr-only">Categories</h3>
-    <ul role="list" class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-      <li v-for="category in subCategories" :key="category.label">
-        <span @click="changeCategory(category)">{{ category.label }}</span>
-      </li>
-    </ul>
-    <Disclosure as="div" v-for="section in filters" :key="section.id" class="border-b border-gray-200 py-6"
+    <Disclosure as="div" class="border-b border-gray-200 py-6"
                 v-slot="{ open }">
       <h3 class="-my-3 flow-root">
         <DisclosureButton
             class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-          <span class="font-medium text-gray-900">{{ section.name }}</span>
+          <span class="font-medium text-gray-900">Категории</span>
           <span class="ml-6 flex items-center">
             <PlusIcon v-if="!open" class="h-5 w-5" aria-hidden="true"/>
             <MinusIcon v-else class="h-5 w-5" aria-hidden="true"/>
@@ -152,13 +121,8 @@ watch(props, (newVal, oldVal) => {
       </h3>
       <DisclosurePanel class="pt-6">
         <div class="space-y-4">
-          <div v-for="(option, optionIdx) in section.options" :key="option.value" class="flex items-center">
-            <input :id="`filter-${section.id}-${optionIdx}`" :name="`${section.id}[]`" :value="option.value"
-                   type="checkbox" :checked="option.checked"
-                   class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"/>
-            <label :for="`filter-${section.id}-${optionIdx}`" class="ml-3 text-sm text-gray-600">{{
-                option.label
-              }}</label>
+          <div class="flex flex-col gap-3">
+            <span class="cursor-pointer" v-for="category in categoryStore.categories" @click="changeCategory(category)">{{ category.title }}</span>
           </div>
         </div>
       </DisclosurePanel>
