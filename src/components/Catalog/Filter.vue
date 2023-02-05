@@ -13,7 +13,6 @@ import {MinusIcon, PlusIcon} from '@heroicons/vue/20/solid'
 import {ref, defineProps, defineEmits, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useCategoryStore} from "@/stores/category";
-import {useProductStore} from "@/stores/product";
 
 function hideMobileFilter() {
   mobileFiltersOpen.value = false
@@ -21,26 +20,23 @@ function hideMobileFilter() {
 }
 
 async function changeCategory(category: any) {
-  await categoryStore.requestCategoriesById(category.id);
-  await productStore.requestProductsByCategory(category.id)
   await router.push({name: 'catalogCategory', params: {category: category.id}})
 }
 
 const route = useRoute();
 const categoryStore = useCategoryStore();
-const productStore = useProductStore();
-await categoryStore.requestCategories();
 const router = useRouter();
 const props = defineProps(['showMobileFilter']);
-const emit = defineEmits(['hideMobileFilter']);
+const emit = defineEmits(['hideMobileFilter', 'category']);
 const mobileFiltersOpen = ref(false)
-
-if (route.name === 'catalogCategory') {
-  await categoryStore.requestCategoriesById(route.params.category);
-}
+await categoryStore.getCategories()
 
 watch(props, (newVal, oldVal) => {
   mobileFiltersOpen.value = props.showMobileFilter
+})
+
+watch(route, async (newVal, oldVal) => {
+  await categoryStore.getCategories()
 })
 </script>
 

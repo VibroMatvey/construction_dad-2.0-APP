@@ -1,9 +1,18 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import ky from 'ky'
+import {useRoute} from "vue-router";
 
 export const useProductStore = defineStore('products', () => {
   const products = ref(null)
+  const route = useRoute();
+
+  async function getProducts() {
+    if (route.name === 'catalogCategory') {
+      return await requestProductsByCategory(route.params.category);
+    }
+    return await requestProducts();
+  }
 
   async function requestProducts() {
     try {
@@ -23,5 +32,5 @@ export const useProductStore = defineStore('products', () => {
     }
   }
 
-  return { requestProducts, requestProductsByCategory, products }
+  return { requestProducts, getProducts, requestProductsByCategory, products }
 })

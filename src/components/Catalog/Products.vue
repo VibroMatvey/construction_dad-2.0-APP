@@ -9,21 +9,21 @@ const productsStore = useProductStore();
 const props = defineProps(['gridType']);
 const grid = ref('grid');
 
-if (route.name === 'catalogCategory') {
-  await productsStore.requestProductsByCategory(route.params.category);
-} else {
-  await productsStore.requestProducts();
-}
+await productsStore.getProducts()
 
 watch(props, (newVal, oldVal) => {
   grid.value = props.gridType
+})
+watch(route, async (newVal, oldVal) => {
+  await productsStore.getProducts()
 })
 </script>
 
 <template>
   <div class="lg:col-span-3">
     <div :class=" grid === 'grid' ? 'grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2' : 'grid grid-cols-1 gap-5'">
-      <div v-for="product in productsStore.products" :key="product.id" :class=" grid === 'grid' ? 'w-72 bg-gray-50' : 'flex justify-between w-full bg-gray-50'">
+      <div v-for="product in productsStore.products" :key="product.id"
+           :class=" grid === 'grid' ? 'w-72 bg-gray-50' : 'flex justify-between w-full bg-gray-50'">
         <RouterLink to="/product">
           <img :src="product.preview_img" alt="product" class="w-full h-44"/>
         </RouterLink>
@@ -69,8 +69,10 @@ watch(props, (newVal, oldVal) => {
     </div>
     <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div class="flex flex-1 justify-between sm:hidden">
-        <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-        <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+        <a href="#"
+           class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+        <a href="#"
+           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
       </div>
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
@@ -92,20 +94,41 @@ watch(props, (newVal, oldVal) => {
         </div>
         <div>
           <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            <RouterLink to="#" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+            <RouterLink to="#"
+                        class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
               <span class="sr-only">Previous</span>
-              <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <ChevronLeftIcon class="h-5 w-5" aria-hidden="true"/>
             </RouterLink>
-            <RouterLink to="#" aria-current="page" class="relative z-10 inline-flex items-center border border-yellow-500 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-600 focus:z-20">1</RouterLink>
-            <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">2</RouterLink>
-            <RouterLink to="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">3</RouterLink>
-            <span class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">...</span>
-            <RouterLink to="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">8</RouterLink>
-            <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">9</RouterLink>
-            <RouterLink to="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">10</RouterLink>
-            <RouterLink to="#" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+            <RouterLink to="#" aria-current="page"
+                        class="relative z-10 inline-flex items-center border border-yellow-500 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-600 focus:z-20">
+              1
+            </RouterLink>
+            <RouterLink to="#"
+                        class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+              2
+            </RouterLink>
+            <RouterLink to="#"
+                        class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">
+              3
+            </RouterLink>
+            <span
+                class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">...</span>
+            <RouterLink to="#"
+                        class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">
+              8
+            </RouterLink>
+            <RouterLink to="#"
+                        class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+              9
+            </RouterLink>
+            <RouterLink to="#"
+                        class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+              10
+            </RouterLink>
+            <RouterLink to="#"
+                        class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
               <span class="sr-only">Next</span>
-              <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
+              <ChevronRightIcon class="h-5 w-5" aria-hidden="true"/>
             </RouterLink>
           </nav>
         </div>

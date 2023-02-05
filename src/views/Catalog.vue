@@ -12,10 +12,10 @@ function mobileFilterAction(state: boolean) {
 function changeGrid(type: string) {
   grid.value = type
 }
-
 const categoryStore = useCategoryStore();
 const mobileFilter = ref(false)
 const grid = ref('grid')
+const category = ref(null);
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const grid = ref('grid')
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-baseline justify-between border-b border-gray-200 py-16 pb-6">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900">Каталог товаров {{
-            categoryStore.category ? ' - ' + categoryStore.category.title : ''
+            categoryStore.category ? ' - ' + categoryStore.category : ''
           }}</h1>
         <Sort @gridType="changeGrid($event)" @showMobileFilter="mobileFilterAction(true)"/>
       </div>
@@ -31,7 +31,7 @@ const grid = ref('grid')
         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
           <Suspense>
             <template #default>
-              <Filter @hideMobileFilter="mobileFilterAction(false)" v-model:showMobileFilter="mobileFilter" />
+              <Filter @category="category = $event" @hideMobileFilter="mobileFilterAction(false)" v-model:showMobileFilter="mobileFilter" />
             </template>
             <template #fallback>
               <form class="hidden flex-col gap-5 lg:flex">
