@@ -7,7 +7,6 @@ const emit = defineEmits(['tab'])
 <template>
   <div class="flex flex-col items-center justify-center my-16 mx-auto lg:py-0">
     <RouterLink to="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-      <img class="w-12 h-12 mr-2" src="src/assets/img/logo.png" alt="logo">
       Строительный папа
     </RouterLink>
     <div
