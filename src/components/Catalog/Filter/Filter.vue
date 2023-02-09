@@ -20,7 +20,15 @@ function hideMobileFilter() {
 }
 
 function changeCategory(category: any) {
-  router.push({name: 'catalogCategory', params: {category: category.id}})
+  router.push({name: 'catalog', params: {category: category.id}})
+}
+
+function changeTag(category: any) {
+  filters.value.tag = category.id
+}
+
+function changePrice(category: any) {
+  filters.value.price = category.id
 }
 
 const route = useRoute();
@@ -29,6 +37,8 @@ const router = useRouter();
 const props = defineProps(['showMobileFilter']);
 const emit = defineEmits(['hideMobileFilter', 'category']);
 const mobileFiltersOpen = ref(false)
+const filters: any = ref({
+})
 await categoryStore.getCategories()
 
 watch(props, (newVal, oldVal) => {
@@ -37,6 +47,10 @@ watch(props, (newVal, oldVal) => {
 
 watch(route, async (newVal, oldVal) => {
   await categoryStore.getCategories()
+})
+
+watch(filters.value, (newVal, oldVal) => {
+  router.push({query: newVal})
 })
 </script>
 
@@ -138,7 +152,7 @@ watch(route, async (newVal, oldVal) => {
       <DisclosurePanel class="pt-6">
         <div class="space-y-4">
           <div class="flex flex-col gap-3">
-            <span class="cursor-pointer" v-for="category in categoryStore.categories" @click="changeCategory(category)">{{ category.title }}</span>
+            <span class="cursor-pointer" v-for="category in categoryStore.categories" @click="changePrice(category)">{{ category.title }}</span>
           </div>
         </div>
       </DisclosurePanel>
@@ -158,7 +172,7 @@ watch(route, async (newVal, oldVal) => {
       <DisclosurePanel class="pt-6">
         <div class="space-y-4">
           <div class="flex flex-col gap-3">
-            <span class="cursor-pointer" v-for="category in categoryStore.categories" @click="changeCategory(category)">{{ category.title }}</span>
+            <span class="cursor-pointer" v-for="category in categoryStore.categories" @click="changeTag(category)">{{ category.title }}</span>
           </div>
         </div>
       </DisclosurePanel>

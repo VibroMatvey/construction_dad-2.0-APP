@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0, behavior: 'smooth' }
+  },
   routes: [
     {
       path: '/',
@@ -9,17 +12,12 @@ const router = createRouter({
       component: () => import('../views/Main.vue')
     },
     {
-      path: '/catalog',
+      path: '/catalog/:category*',
       name: 'catalog',
       component: () => import('../views/Catalog.vue'),
       meta: {
         title: 'Строительный папа | Каталог товаров'
       }
-    },
-    {
-      path: '/catalog/:category',
-      name: 'catalogCategory',
-      component: () => import('../views/Catalog.vue')
     },
     {
       path: '/about',

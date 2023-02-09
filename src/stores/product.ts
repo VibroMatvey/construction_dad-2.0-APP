@@ -11,10 +11,10 @@ export const useProductStore = defineStore('products', () => {
 
   async function getProducts() {
     loading.value = true
-    if (route.name === 'catalogCategory') {
+    if (route.params.category) {
       await requestProductsByCategory(route.params.category);
     }
-    if (route.name === 'catalog') {
+    if (!route.params.category) {
       await requestProducts();
     }
     loading.value = false
