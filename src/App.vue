@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import Header from './components/App/Header.vue'
+import Header from './components/App/Header/Header.vue'
 import Footer from './components/App/Footer.vue'
-
 </script>
 
 <template>
   <section class="wrapper">
-    <Suspense>
-      <Header />
-    </Suspense>
-    <div class="main">
+    <Header />
+    <main class="main">
       <RouterView />
-    </div>
+    </main>
     <Footer />
   </section>
 </template>
@@ -22,8 +19,15 @@ import Footer from './components/App/Footer.vue'
   flex-direction: column;
   min-height: 100vh;
 
+  Header {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+  }
+
   .main {
     flex-grow: 1;
+    margin-top: 68px;
   }
 }
 </style>

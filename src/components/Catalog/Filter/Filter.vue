@@ -20,7 +20,7 @@ function hideMobileFilter() {
 }
 
 function changeCategory(category: any) {
-  router.push({name: 'catalog', params: {category: category.id}})
+  router.push({name: 'catalog', params: {category: category.id}, query: filters.value})
 }
 
 function changeTag(category: any) {
@@ -40,6 +40,8 @@ const mobileFiltersOpen = ref(false)
 const filters: any = ref({
 })
 await categoryStore.getCategories()
+route.query.tag ? filters.value.tag = route.query.tag : ''
+route.query.price ? filters.value.price = route.query.price : ''
 
 watch(props, (newVal, oldVal) => {
   mobileFiltersOpen.value = props.showMobileFilter

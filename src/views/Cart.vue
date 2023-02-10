@@ -3,10 +3,14 @@
 </script>
 
 <template>
-    <div class="container mx-auto">
+    <section class="container mx-auto">
+      <div class="flex items-baseline justify-between border-b border-gray-200 py-16 pb-6">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900">
+          Корзина
+        </h1>
+      </div>
       <div class="flex my-12 items-start lg:flex-row flex-col justify-between">
         <div class="overflow-y-hidden overflow-x-hidden bg-gray-50 rounded p-5">
-          <h1 class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 dark:text-white">Корзина</h1>
           <div class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
             <div class="md:w-4/12 2xl:w-1/4 w-full">
               <img src="https://i.ibb.co/SX762kX/Rectangle-36-1.png" alt="Black Leather Bag" class="h-full object-center object-cover md:block hidden" />
@@ -92,8 +96,7 @@
         <div class="lg:w-96 md:w-8/12 h-full w-full bg-gray-100 dark:bg-gray-900 rounded p-5">
           <div class="flex flex-col h-full justify-between overflow-y-auto">
             <div>
-              <p class="lg:text-4xl text-3xl font-black leading-9 text-gray-800 dark:text-white">Оформить заказ</p>
-              <div class="flex items-center justify-between pt-16">
+              <div class="flex items-center justify-between pt-5">
                 <p class="text-base leading-none text-gray-800 dark:text-white">Товары</p>
                 <p class="text-base leading-none text-gray-800 dark:text-white">$9,000</p>
               </div>
@@ -116,7 +119,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
 </template>
 
 <style scoped lang="scss">
