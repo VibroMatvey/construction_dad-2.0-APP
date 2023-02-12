@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import ViewImages from '../Images/ViewImages.vue'
 import {useProductStore} from "@/stores/product";
 import {useRoute} from "vue-router";
+import Gallery from '../galery/Gallery.vue'
 
 const route = useRoute();
 const productStore = useProductStore();
@@ -10,48 +10,10 @@ await productStore.getProduct(route.params.id)
 </script>
 
 <template>
-  <ViewImages :images="productStore.product.images" :preview="productStore.product.preview_img" />
   <div class="2xl:container 2xl:mx-auto relative flex justify-start w-96 md:w-10/12 xl:w-11/12 item-start flex-col lg:flex-row lg:space-x-8 py-12 md:py-16 lg:py-12 px-4 md:px-8 lg:px-16 bg-white">
-    <div class="w-full">
+    <div class="w-2/4">
       <div class="relative">
-        <div id="ProductCarousel" class="carousel slide relative" data-bs-ride="carousel">
-          <div class="carousel-inner relative w-full overflow-hidden">
-            <div class="carousel-item relative float-left w-full active">
-              <img
-                  :src="productStore.product.preview_img"
-                  class="block w-full cursor-pointer"
-                  alt="Wild Landscape"
-                  data-bs-toggle="modal" data-bs-target="#exampleModalXl"
-              />
-            </div>
-            <div v-for="image in productStore.product.images" :key="image.id"  class="carousel-item relative float-left w-full">
-              <img
-                  :src="image.image"
-                  class="block w-full cursor-pointer"
-                  alt="Wild Landscape"
-                  data-bs-toggle="modal" data-bs-target="#exampleModalXl"
-              />
-            </div>
-          </div>
-          <button
-              class="carousel-control-prev absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
-              type="button"
-              data-bs-target="#ProductCarousel"
-              data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon inline-block bg-no-repeat" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-              class="carousel-control-next absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline right-0"
-              type="button"
-              data-bs-target="#ProductCarousel"
-              data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon inline-block bg-no-repeat" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
+        <Gallery :images="productStore.product.images" :preview_image="productStore.product.preview_img" />
       </div>
     </div>
     <div class="mt-6 md:mt-8 lg:mt-0 flex justify-start items-start w-full flex-col space-y-6">

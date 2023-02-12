@@ -14,6 +14,10 @@ import {ref, defineProps, defineEmits, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useCategoryStore} from "@/stores/category";
 
+function stopDragging(value: any) {
+  filters.value.price = value;
+}
+
 function hideMobileFilter() {
   mobileFiltersOpen.value = false
   emit('hideMobileFilter', false)
@@ -23,8 +27,15 @@ function changeCategory(category: any) {
   router.push({name: 'catalog', params: {category: category.id}, query: filters.value})
 }
 
-function changeTag(category: any) {
-  filters.value.tag = category.id
+function changeTag(tag: any) {
+  if (filters.value.tags.find((item: any) => {
+    return item == tag;
+  })) {
+    return filters.value.tags = filters.value.tags.filter((item: any) => {
+      return item != tag;
+    })
+  }
+  return filters.value.tags.push(tag);
 }
 
 function changePrice(category: any) {
@@ -37,7 +48,10 @@ const router = useRouter();
 const props = defineProps(['showMobileFilter']);
 const emit = defineEmits(['hideMobileFilter', 'category']);
 const mobileFiltersOpen = ref(false)
+const priceRange = ref(1);
 const filters: any = ref({
+  tags: [],
+  price: 1
 })
 await categoryStore.getCategories()
 route.query.tag ? filters.value.tag = route.query.tag : ''
@@ -53,6 +67,8 @@ watch(route, async (newVal, oldVal) => {
 
 watch(filters.value, (newVal, oldVal) => {
   router.push({query: newVal})
+}, {
+  deep: true
 })
 </script>
 
@@ -72,7 +88,7 @@ watch(filters.value, (newVal, oldVal) => {
           <DialogPanel
               class="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
             <div class="flex items-center justify-between px-4">
-              <h2 class="text-lg font-medium text-gray-900">Filters</h2>
+              <h2 class="text-lg font-medium text-gray-900">Фильтры</h2>
               <button type="button"
                       class="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
                       @click="hideMobileFilter">
@@ -174,7 +190,10 @@ watch(filters.value, (newVal, oldVal) => {
       <DisclosurePanel class="pt-6">
         <div class="space-y-4">
           <div class="flex flex-col gap-3">
-            <span class="cursor-pointer" v-for="category in categoryStore.categories" @click="changeTag(category)">{{ category.title }}</span>
+            <p v-for="category in categoryStore.categories" class="flex gap-2 items-center">
+              <input type="checkbox" class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" :id="category.title" :value="category.id" @input="changeTag($event.target.value)">
+              <label :for="category.title">{{ category.title }}</label>
+            </p>
           </div>
         </div>
       </DisclosurePanel>
@@ -199,6 +218,34 @@ watch(filters.value, (newVal, oldVal) => {
         </div>
       </DisclosurePanel>
     </Disclosure>
+    <div class="border-b border-gray-200 py-6">
+      <label for="customRange1" class="font-medium text-gray-900">Цена</label>
+      <input
+          type="range"
+          class="
+      form-range
+      appearance-none
+      w-full
+      h-6
+      p-0
+      bg-transparent
+      ring-yellow-500
+      focus:outline-none focus:ring-0 focus:shadow-none
+      accent-amber-400
+    "
+          id="customRange1"
+          min="1"
+          max="100000"
+          @mouseup="stopDragging($event.target.value)"
+          @mousemove="priceRange = $event.target.value"
+          @click="priceRange = $event.target.value"
+      />
+      <div class="w-full flex justify-between">
+        <span>1</span>
+        <span>{{ priceRange }}</span>
+        <span>100000</span>
+      </div>
+    </div>
   </form> <!-- desktop -->
 </template>
 
